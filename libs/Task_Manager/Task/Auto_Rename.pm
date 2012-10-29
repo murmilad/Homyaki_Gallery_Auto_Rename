@@ -22,24 +22,16 @@ sub start {
 
 	my $result = {};
 
-	my $update_date = stat(&BASE_IMAGE_PATH)->mtime();
-	
-	if ($params->{update_date} != $update_date) {
 
-		Homyaki::Gallery::Group_Processing->process(
-			handler => 'Homyaki::Processor::Gallery_Unic_Name',
-			params  => {
-				images_path   => &BASE_IMAGE_PATH,
-			},
-		);
+	Homyaki::Gallery::Group_Processing->process(
+		handler => 'Homyaki::Processor::Gallery_Unic_Name',
+		params  => {
+			images_path   => &BASE_IMAGE_PATH,
+		},
+	);
 
-		$params->{update_date} = $update_date;
-	}
 
 	$result->{task} = {
-		retry => {
-			minutes => 1,
-		},
 		params => $params,
 	};
 
